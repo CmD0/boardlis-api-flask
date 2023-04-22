@@ -50,3 +50,15 @@ class UserDao():
             return user_json, 200
         except NotUniqueError:
             return {'error': 'that username or email is taken'}, 409
+
+    @classmethod
+    def modify_password(cls, id, password, new_password):
+        user = User.objects.get(id=id)
+        if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            hashed_pw = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+            user.password = hashed_pw.decode('utf-8')
+            user.save()
+            user_json = json.loads(user.to_json())
+            return user_json, 200
+        else:
+            return {'error': 'incorrect password'}, 401

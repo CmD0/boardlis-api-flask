@@ -21,3 +21,7 @@ class UserController():
     @classmethod
     def modify_user(cls, id, username, email, display_name):
         return UserDao.modify_user(id, username, email, display_name)
+
+    @classmethod
+    def modify_password(cls, id, password, new_password):
+        return UserDao.modify_password(id, password, new_password)
