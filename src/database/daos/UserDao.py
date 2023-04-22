@@ -28,3 +28,12 @@ class UserDao():
         except NotUniqueError:
             return {'error': 'a user with that username or email already exists'}, 409
         return user_json, 201
+
+    @classmethod
+    def login_user(cls, username, password):
+        user = User.objects.get(username=username)
+        if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            user_json = json.loads(user.to_json())
+            return user_json, 200
+        else:
+            return {'error': 'incorrect password'}, 401

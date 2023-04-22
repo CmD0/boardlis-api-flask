@@ -11,3 +11,9 @@ def register_user():
     password = request.json['password']
     display_name = request.json['display_name']
     return UserController.register_user(username, email, password, display_name)
+
+@bp_users_post.route('/login', methods=['POST'])
+def login_user():
+    username = request.json['username']
+    password = request.json['password']
+    return UserController.login_user(username, password)
