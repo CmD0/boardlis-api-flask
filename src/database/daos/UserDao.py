@@ -1,3 +1,4 @@
+from typing import Tuple
 import bcrypt
 import json
 from database.models.UserModel import User
@@ -6,10 +7,16 @@ from mongoengine.errors import NotUniqueError
 class UserDao():
     
     @classmethod
+    def get_users(cls):
+        users = [user for user in User.objects]
+        users = list(map(lambda user: json.loads(user.to_json()), users))
+        return users, 200
+    
+    @classmethod
     def get_user_by_id(cls, id):
         user = User.objects.get(id=id)
         user_json = json.loads(user.to_json())
-        return user_json
+        return user_json, 200
     
     @classmethod
     def register_user(cls, username, email, password, display_name):
@@ -20,4 +27,4 @@ class UserDao():
             user_json = json.loads(user.to_json())
         except NotUniqueError:
             return {'error': 'a user with that username or email already exists'}, 409
-        return user_json
+        return user_json, 201
