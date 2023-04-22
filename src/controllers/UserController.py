@@ -1,4 +1,4 @@
-from src.database.daos.UserDao import UserDao
+from database.daos.UserDao import UserDao
 
 class UserController():
 
