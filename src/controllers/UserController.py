@@ -5,6 +5,10 @@ class UserController():
     @classmethod
     def get_users(cls):
         return UserDao.get_users()
+    
+    @classmethod
+    def search(cls, query, field):
+        return UserDao.search(query, field)
 
     @classmethod
     def get_user_by_id(cls, id):

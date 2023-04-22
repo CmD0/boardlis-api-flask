@@ -8,7 +8,18 @@ class UserDao():
     
     @classmethod
     def get_users(cls):
-        users = [user for user in User.objects]
+        users = User.objects
+        users = list(map(lambda user: json.loads(user.to_json()), users))
+        return users, 200
+    
+    @classmethod
+    def search(cls, query, field):
+        if field == 'username':
+            users = User.objects(username__icontains=query)
+        elif field == 'display_name':
+            users = User.objects(display_name__icontains=query)
+        else:
+            return {'error': 'invalid field'}, 400
         users = list(map(lambda user: json.loads(user.to_json()), users))
         return users, 200
     
