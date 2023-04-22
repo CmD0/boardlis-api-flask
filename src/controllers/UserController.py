@@ -17,3 +17,7 @@ class UserController():
     @classmethod
     def login_user(cls, username, password):
         return UserDao.login_user(username, password)
+
+    @classmethod
+    def modify_user(cls, id, username, email, display_name):
+        return UserDao.modify_user(id, username, email, display_name)

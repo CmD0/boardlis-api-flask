@@ -37,3 +37,16 @@ class UserDao():
             return user_json, 200
         else:
             return {'error': 'incorrect password'}, 401
+
+    @classmethod
+    def modify_user(cls, id, username, email, display_name):
+        user = User.objects.get(id=id)
+        try:
+            user.username = username
+            user.email = email
+            user.display_name = display_name
+            user.save()
+            user_json = json.loads(user.to_json())
+            return user_json, 200
+        except NotUniqueError:
+            return {'error': 'that username or email is taken'}, 409
