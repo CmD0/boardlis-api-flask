@@ -1,5 +1,19 @@
-class UserDao():
+import bcrypt
+import json
+from database.models.UserModel import User
 
+class UserDao():
+    
     @classmethod
     def get_user_by_id(cls, id):
-        return {'id': id}
+        user = User.objects.get(id=id)
+        user_json = json.loads(user.to_json())
+        return user_json
+    
+    @classmethod
+    def register_user(cls, username, email, password, display_name):
+        hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        user = User(username=username, email=email, password=hashed_pw, display_name=display_name, follows=[], boards=[], comments=[])
+        user.save()
+        user_json = json.loads(user.to_json())
+        return user_json
