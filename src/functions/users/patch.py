@@ -12,9 +12,9 @@ def modify_user(id):
     display_name = request.json['display_name']
     return UserController.modify_user(id, username, email, display_name)
 
-@bp_users_patch.route('/password', methods=['PATCH'])
-def modify_password():
-    id = request.json['id']
+@bp_users_patch.route('/<id>/password', methods=['PATCH'])
+def modify_password(id):
+    id = id
     password = request.json['password']
     new_password = request.json['new_password']
     return UserController.modify_password(id, password, new_password)
